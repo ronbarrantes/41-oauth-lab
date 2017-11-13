@@ -11,7 +11,7 @@ const accountSchema = mongoose.Schema({
   email: { type: String, required: true, unique: true },
   passwordHash: { type: String, required: true },
   tokenSeed: { type: String, required: true, unique: true },
-  googleOauth: { type: Boolean, default: false },
+  googleOAuth: { type: Boolean, default: false },
   created: { type: Date, default: () => new Date() },
 });
 
