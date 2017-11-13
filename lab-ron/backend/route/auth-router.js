@@ -19,7 +19,6 @@ authRouter.post('/auth', (req, res, next) => {
 });
 
 authRouter.get('/oauth/google', (req, res, next) => {
-  console.log(req.query);
   if (!req.query.code) {
     res.redirect(process.env.CLIENT_URL);
   } else {
@@ -47,19 +46,14 @@ authRouter.get('/oauth/google', (req, res, next) => {
       })
       .then(account => account.tokenCreate())
       .then(token => {
-        res.cookie('X-CharityChoice-Token', token, { maxAge: 604800000 });
+        res.cookie('X-CharityChoice-Token', token);//, { maxAge: 604800000 });
         res.redirect(process.env.CLIENT_URL);
       })
-      // .then(() => {
-      //   res.redirect(process.env.CLIENT_URL);
-      // })
       .catch(err => {
         console.error(err);
         res.redirect(process.env.CLIENT_URL);
       });
   }
-
-
 });
 
 authRouter.get('/auth', basicAuth, (req, res, next) => {

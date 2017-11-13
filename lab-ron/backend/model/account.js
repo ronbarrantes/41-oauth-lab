@@ -63,10 +63,12 @@ Account.create = function (data) {
 };
 
 Account.handleGoogleOAuth = function (openIDProfile) {
-  return Account.findOne({ email: openIDProfile })
+
+  return Account.findOne({ email: openIDProfile.email })
     .then(account => {
       if (account) {
-        if (account.googleOauth)
+
+        if (account.googleOAuth)
           return account;
         throw new Error('account found but not connected to google');
       }
@@ -78,6 +80,5 @@ Account.handleGoogleOAuth = function (openIDProfile) {
         passwordHash: crypto.randomBytes(32).toString('hex'),
       })
         .save();
-
     });
 };
