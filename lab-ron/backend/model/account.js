@@ -62,13 +62,11 @@ Account.create = function (data) {
     });
 };
 
-Account.handleGoogleOAuth = function (openIDProfile) {
-
-  return Account.findOne({ email: openIDProfile.email })
+Account.handleGoogleOAuth = function(openIDProfile){
+  return Account.findOne({email: openIDProfile.email})
     .then(account => {
       if (account) {
-
-        if (account.googleOAuth)
+        if(account.googleOAuth)
           return account;
         throw new Error('account found but not connected to google');
       }
@@ -77,7 +75,7 @@ Account.handleGoogleOAuth = function (openIDProfile) {
         email: openIDProfile.email,
         username: openIDProfile.email.split('@')[0],
         tokenSeed: crypto.randomBytes(32).toString('hex'),
-        passwordHash: crypto.randomBytes(32).toString('hex'),
+        passwordHash: crypto.randomBytes(32).toString('hex'), 
       })
         .save();
     });

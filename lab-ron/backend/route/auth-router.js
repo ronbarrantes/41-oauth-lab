@@ -46,13 +46,15 @@ authRouter.get('/oauth/google', (req, res, next) => {
       })
       .then(account => account.tokenCreate())
       .then(token => {
-        res.cookie('X-CharityChoice-Token', token);//, { maxAge: 604800000 });
+        res.cookie('X-CharityChoice-Token', token, { maxAge: 604800000 });
         res.redirect(process.env.CLIENT_URL);
       })
       .catch(err => {
         console.error(err);
-        res.redirect(process.env.CLIENT_URL);
+        res.cookie('X-CharityChoice-Token', '');
+        res.redirect(process.env.CLIENT_URL + '?error=oauth');
       });
+
   }
 });
 
