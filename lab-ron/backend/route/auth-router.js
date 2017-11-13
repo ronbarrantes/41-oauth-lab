@@ -5,6 +5,7 @@ const superagent = require('superagent');
 const httpErrors = require('http-errors');
 const Account = require('../model/account.js');
 const basicAuth = require('../lib/basic-auth-middleware.js');
+const bearerAuth = require('../lib/bearer-auth-middleware');
 
 const authRouter = module.exports = new Router();
 
@@ -18,7 +19,7 @@ authRouter.post('/auth', (req, res, next) => {
     .catch(next);
 });
 
-authRouter.get('/oauth/google', (req, res, next) => {
+authRouter.get('/oauth/google', (req, res) => {
   if (!req.query.code) {
     res.redirect(process.env.CLIENT_URL);
   } else {
@@ -77,4 +78,11 @@ authRouter.put('/auth', basicAuth, (req, res, next) => {
       res.sendStatus(200);
     })
     .catch(next);
+});
+
+authRouter.get('/profiles/me', bearerAuth, (req, res) => {
+  res.json({
+    username: req.user.username,
+    email: req.user.email,
+  });
 });
