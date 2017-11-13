@@ -79,10 +79,3 @@ authRouter.put('/auth', basicAuth, (req, res, next) => {
     })
     .catch(next);
 });
-
-authRouter.get('/profiles/me', bearerAuth, (req, res) => {
-  res.json({
-    username: req.user.username,
-    email: req.user.email,
-  });
-});
